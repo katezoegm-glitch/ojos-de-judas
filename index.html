@@ -17,6 +17,8 @@
             min-height: 100vh;
             font-family: Arial, sans-serif;
             overflow: hidden;
+            /* Evita comportamientos extraños de scroll/zoom al tocar en móviles */
+            touch-action: none; 
         }
 
         #presentation-wrapper {
@@ -26,6 +28,7 @@
             justify-content: center;
             align-items: center;
             background-color: #000;
+            position: relative;
         }
 
         .slide-container {
@@ -45,11 +48,11 @@
         .slide-img {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* No deforma las imágenes en Chromebooks */
+            object-fit: contain;
             z-index: 1;
         }
 
-        /* BOTÓN DE AUDIO FLOTANTE (SIEMPRE VISIBLE) */
+        /* BOTÓN DE AUDIO FLOTANTE (ADAPTATIVO) */
         .audio-btn {
             position: absolute;
             bottom: 40px;
@@ -64,7 +67,7 @@
             height: 70px;
             font-size: 26px;
             cursor: pointer;
-            z-index: 100;
+            z-index: 100; /* Por encima de las zonas táctiles de navegación */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -88,6 +91,18 @@
             100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
         }
 
+        /* ZONAS TÁCTILES INVISIBLES PARA NAVEGAR EN MÓVILES (Estilo Instagram) */
+        .touch-zone {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: 40%; /* Toma el 40% de cada lado */
+            z-index: 50; /* Por debajo del botón de audio para que no interfiera al presionarlo */
+            background: transparent;
+        }
+        .touch-left { left: 0; }
+        .touch-right { right: 0; }
+
         /* BARRA DE CONTROLES INFERIOR */
         .controls-bar {
             position: fixed;
@@ -105,7 +120,7 @@
             transition: opacity 0.4s ease;
         }
 
-        /* OCULTAR CONTROLES AUTOMÁTICAMENTE EN PANTALLA COMPLETA */
+        /* OCULTAR CONTROLES EN PANTALLA COMPLETA */
         :fullscreen .controls-bar { opacity: 0; pointer-events: none; }
         :-webkit-full-screen .controls-bar { opacity: 0; pointer-events: none; }
 
@@ -116,9 +131,7 @@
             font-size: 18px;
             cursor: pointer;
             padding: 5px 10px;
-            transition: opacity 0.2s;
         }
-        .nav-btn:hover { opacity: 0.7; }
 
         .counter {
             color: #bbb;
@@ -136,18 +149,48 @@
             font-size: 12px;
             cursor: pointer;
         }
+
+        /* AJUSTES RESPONSIVOS PARA PANTALLAS DE CELULARES (MOBILE) */
+        @media (max-width: 768px) {
+            .audio-btn {
+                width: 50px;       /* Más pequeño en celular */
+                height: 50px;      /* Más pequeño en celular */
+                bottom: 25px;      /* Más pegado a la esquina */
+                right: 25px;       /* Más pegado a la esquina */
+                font-size: 18px;   /* Icono proporcional */
+            }
+
+            .controls-bar {
+                bottom: 15px;
+                padding: 8px 15px;
+                gap: 12px;
+            }
+
+            .counter {
+                font-size: 12px;
+            }
+
+            .fs-btn {
+                padding: 5px 10px;
+                font-size: 10px;
+            }
+        }
     </style>
 </head>
 <body>
 
     <div id="presentation-wrapper">
+        
+        <div class="touch-zone touch-left" onclick="changeSlide(-1)"></div>
+        <div class="touch-zone touch-right" onclick="changeSlide(1)"></div>
+
         <div class="slide-container active">
             <img class="slide-img" src="imagenes/1.png" alt="Slide 1">
         </div>
 
         <div class="slide-container">
             <img class="slide-img" src="imagenes/2.png" alt="Slide 2">
-            <button class="audio-btn" onclick="toggleAudio('aud1', this)"><i class="fa-solid fa-volume-high"></i></button>
+            <button class="audio-btn" onclick="event.stopPropagation(); toggleAudio('aud1', this)"><i class="fa-solid fa-volume-high"></i></button>
             <audio id="aud1" src="audios/1.mp3"></audio>
         </div>
 
@@ -157,7 +200,7 @@
 
         <div class="slide-container">
             <img class="slide-img" src="imagenes/4.png" alt="Slide 4">
-            <button class="audio-btn" onclick="toggleAudio('aud2', this)"><i class="fa-solid fa-volume-high"></i></button>
+            <button class="audio-btn" onclick="event.stopPropagation(); toggleAudio('aud2', this)"><i class="fa-solid fa-volume-high"></i></button>
             <audio id="aud2" src="audios/2.mp3"></audio>
         </div>
 
@@ -169,7 +212,7 @@
 
         <div class="slide-container">
             <img class="slide-img" src="imagenes/10.png" alt="Slide 10">
-            <button class="audio-btn" onclick="toggleAudio('aud3', this)"><i class="fa-solid fa-volume-high"></i></button>
+            <button class="audio-btn" onclick="event.stopPropagation(); toggleAudio('aud3', this)"><i class="fa-solid fa-volume-high"></i></button>
             <audio id="aud3" src="audios/3.mp3"></audio>
         </div>
 
@@ -177,7 +220,7 @@
 
         <div class="slide-container">
             <img class="slide-img" src="imagenes/12.png" alt="Slide 12">
-            <button class="audio-btn" onclick="toggleAudio('aud4', this)"><i class="fa-solid fa-volume-high"></i></button>
+            <button class="audio-btn" onclick="event.stopPropagation(); toggleAudio('aud4', this)"><i class="fa-solid fa-volume-high"></i></button>
             <audio id="aud4" src="audios/4.mp3"></audio>
         </div>
 
@@ -188,7 +231,7 @@
 
         <div class="slide-container">
             <img class="slide-img" src="imagenes/17.png" alt="Slide 17">
-            <button class="audio-btn" onclick="toggleAudio('aud5', this)"><i class="fa-solid fa-volume-high"></i></button>
+            <button class="audio-btn" onclick="event.stopPropagation(); toggleAudio('aud5', this)"><i class="fa-solid fa-volume-high"></i></button>
             <audio id="aud5" src="audios/5.mp3"></audio>
         </div>
 
@@ -196,7 +239,7 @@
 
         <div class="slide-container">
             <img class="slide-img" src="imagenes/19.png" alt="Slide 19">
-            <button class="audio-btn" onclick="toggleAudio('aud6', this)"><i class="fa-solid fa-volume-high"></i></button>
+            <button class="audio-btn" onclick="event.stopPropagation(); toggleAudio('aud6', this)"><i class="fa-solid fa-volume-high"></i></button>
             <audio id="aud6" src="audios/6.mp3"></audio>
         </div>
 
@@ -204,7 +247,7 @@
 
         <div class="slide-container">
             <img class="slide-img" src="imagenes/21.png" alt="Slide 21">
-            <button class="audio-btn" onclick="toggleAudio('aud7', this)"><i class="fa-solid fa-volume-high"></i></button>
+            <button class="audio-btn" onclick="event.stopPropagation(); toggleAudio('aud7', this)"><i class="fa-solid fa-volume-high"></i></button>
             <audio id="aud7" src="audios/7.mp3"></audio>
         </div>
 
@@ -262,15 +305,13 @@
             };
         }
 
-        // CONTROL EXCLUSIVO POR TECLADO
+        // CONTROL POR TECLADO (PC y Chromebook)
         document.addEventListener('keydown', (e) => {
-            // AVANZAR: Flecha Derecha (39) o Enter (13)
             if (e.keyCode === 39 || e.keyCode === 13) {
                 changeSlide(1);
             }
-            // RETROCEDER: Flecha Izquierda (37) o Borrar/Backspace (8)
             if (e.keyCode === 37 || e.keyCode === 8) {
-                e.preventDefault(); // Evita que Chromebook tire hacia atrás en el historial
+                e.preventDefault(); 
                 changeSlide(-1);
             }
         });

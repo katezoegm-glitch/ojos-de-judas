@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Los Ojos de Judas - Presentación</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* CONFIGURACIÓN ESTILO POWERPOINT / CANVA */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        #presentation-wrapper {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+        }
+
+        .slide-container {
+            width: 100%;
+            height: 100%;
+            display: none;
+            position: relative;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide-container.active {
+            display: flex;
+        }
+
+        /* AJUSTE PERFECTO DE IMÁGENES */
+        .slide-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* No deforma las imágenes en Chromebooks */
+            z-index: 1;
+        }
+
+        /* BOTÓN DE AUDIO FLOTANTE (SIEMPRE VISIBLE) */
+        .audio-btn {
+            position: absolute;
+            bottom: 40px;
+            right: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            color: white;
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            font-size: 26px;
+            cursor: pointer;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .audio-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.1);
+        }
+
+        .audio-btn.playing {
+            background: #e74c3c;
+            border-color: #ff7675;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(231, 76, 60, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
+        }
+
+        /* BARRA DE CONTROLES INFERIOR */
+        .controls-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(20, 20, 20, 0.85);
+            padding: 10px 25px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            z-index: 200;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: opacity 0.4s ease;
+        }
+
+        /* OCULTAR CONTROLES AUTOMÁTICAMENTE EN PANTALLA COMPLETA */
+        :fullscreen .controls-bar { opacity: 0; pointer-events: none; }
+        :-webkit-full-screen .controls-bar { opacity: 0; pointer-events: none; }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 5px 10px;
+            transition: opacity 0.2s;
+        }
+        .nav-btn:hover { opacity: 0.7; }
+
+        .counter {
+            color: #bbb;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        .fs-btn {
+            background: #fff;
+            color: #000;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 12px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="presentation-wrapper">
+        <div class="slide-container active">
+            <img class="slide-img" src="imagenes/1.png" alt="Slide 1">
+        </div>
+
+        <div class="slide-container">
+            <img class="slide-img" src="imagenes/2.png" alt="Slide 2">
+            <button class="audio-btn" onclick="toggleAudio('aud1', this)"><i class="fa-solid fa-volume-high"></i></button>
+            <audio id="aud1" src="audios/1.mp3"></audio>
+        </div>
+
+        <div class="slide-container">
+            <img class="slide-img" src="imagenes/3.png" alt="Slide 3">
+        </div>
+
+        <div class="slide-container">
+            <img class="slide-img" src="imagenes/4.png" alt="Slide 4">
+            <button class="audio-btn" onclick="toggleAudio('aud2', this)"><i class="fa-solid fa-volume-high"></i></button>
+            <audio id="aud2" src="audios/2.mp3"></audio>
+        </div>
+
+        <div class="slide-container"><img class="slide-img" src="imagenes/5.png"></div>
+        <div class="slide-container"><img class="slide-img" src="imagenes/6.png"></div>
+        <div class="slide-container"><img class="slide-img" src="imagenes/7.png"></div>
+        <div class="slide-container"><img class="slide-img" src="imagenes/8.png"></div>
+        <div class="slide-container"><img class="slide-img" src="imagenes/9.png"></div>
+
+        <div class="slide-container">
+            <img class="slide-img" src="imagenes/10.png" alt="Slide 10">
+            <button class="audio-btn" onclick="toggleAudio('aud3', this)"><i class="fa-solid fa-volume-high"></i></button>
+            <audio id="aud3" src="audios/3.mp3"></audio>
+        </div>
+
+        <div class="slide-container"><img class="slide-img" src="imagenes/11.png"></div>
+
+        <div class="slide-container">
+            <img class="slide-img" src="imagenes/12.png" alt="Slide 12">
+            <button class="audio-btn" onclick="toggleAudio('aud4', this)"><i class="fa-solid fa-volume-high"></i></button>
+            <audio id="aud4" src="audios/4.mp3"></audio>
+        </div>
+
+        <div class="slide-container"><img class="slide-img" src="imagenes/13.png"></div>
+        <div class="slide-container"><img class="slide-img" src="imagenes/14.png"></div>
+        <div class="slide-container"><img class="slide-img" src="imagenes/15.png"></div>
+        <div class="slide-container"><img class="slide-img" src="imagenes/16.png"></div>
+
+        <div class="slide-container">
+            <img class="slide-img" src="imagenes/17.png" alt="Slide 17">
+            <button class="audio-btn" onclick="toggleAudio('aud5', this)"><i class="fa-solid fa-volume-high"></i></button>
+            <audio id="aud5" src="audios/5.mp3"></audio>
+        </div>
+
+        <div class="slide-container"><img class="slide-img" src="imagenes/18.png"></div>
+
+        <div class="slide-container">
+            <img class="slide-img" src="imagenes/19.png" alt="Slide 19">
+            <button class="audio-btn" onclick="toggleAudio('aud6', this)"><i class="fa-solid fa-volume-high"></i></button>
+            <audio id="aud6" src="audios/6.mp3"></audio>
+        </div>
+
+        <div class="slide-container"><img class="slide-img" src="imagenes/20.png"></div>
+
+        <div class="slide-container">
+            <img class="slide-img" src="imagenes/21.png" alt="Slide 21">
+            <button class="audio-btn" onclick="toggleAudio('aud7', this)"><i class="fa-solid fa-volume-high"></i></button>
+            <audio id="aud7" src="audios/7.mp3"></audio>
+        </div>
+
+        <div class="slide-container"><img class="slide-img" src="imagenes/22.png"></div>
+    </div>
+
+    <div class="controls-bar">
+        <button class="nav-btn" onclick="changeSlide(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+        <span class="counter" id="slide-num">1 / 22</span>
+        <button class="fs-btn" onclick="toggleFullScreen()">Pantalla Completa</button>
+        <button class="nav-btn" onclick="changeSlide(1)"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+
+    <script>
+        let currentIdx = 0;
+        const slides = document.querySelectorAll('.slide-container');
+        const counter = document.getElementById('slide-num');
+
+        function changeSlide(step) {
+            // Detener y resetear los audios al pasar de slide
+            const allAudios = document.querySelectorAll('audio');
+            allAudios.forEach(a => { a.pause(); a.currentTime = 0; });
+            
+            const allBtns = document.querySelectorAll('.audio-btn');
+            allBtns.forEach(b => { 
+                b.classList.remove('playing'); 
+                b.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+            });
+
+            // Cambiar slide activa
+            slides[currentIdx].classList.remove('active');
+            currentIdx += step;
+
+            if (currentIdx >= slides.length) currentIdx = 0;
+            if (currentIdx < 0) currentIdx = slides.length - 1;
+
+            slides[currentIdx].classList.add('active');
+            counter.innerText = `${currentIdx + 1} / ${slides.length}`;
+        }
+
+        function toggleAudio(id, btn) {
+            const audio = document.getElementById(id);
+            if (audio.paused) {
+                audio.play();
+                btn.classList.add('playing');
+                btn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+            } else {
+                audio.pause();
+                btn.classList.remove('playing');
+                btn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+            }
+            audio.onended = () => {
+                btn.classList.remove('playing');
+                btn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+            };
+        }
+
+        // CONTROL EXCLUSIVO POR TECLADO
+        document.addEventListener('keydown', (e) => {
+            // AVANZAR: Flecha Derecha (39) o Enter (13)
+            if (e.keyCode === 39 || e.keyCode === 13) {
+                changeSlide(1);
+            }
+            // RETROCEDER: Flecha Izquierda (37) o Borrar/Backspace (8)
+            if (e.keyCode === 37 || e.keyCode === 8) {
+                e.preventDefault(); // Evita que Chromebook tire hacia atrás en el historial
+                changeSlide(-1);
+            }
+        });
+
+        // FUNCIÓN PANTALLA COMPLETA NATIVA
+        function toggleFullScreen() {
+            const docEl = document.documentElement;
+            if (!document.fullscreenElement) {
+                docEl.requestFullscreen().catch(err => {
+                    alert(`Error: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+    </script>
+</body>
+</html>
